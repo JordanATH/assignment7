@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        #diceContainer {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .dice {
+            width: 50px;
+            height: 50px;
+            background-color: #ccc;
+            margin: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        button {
+            padding: 10px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #rollHistory {
+            margin-top: 20px;
+        }
+    </style>
+    <title>Dice Roller</title>
+</head>
+<body>
+    <div class="container">
+        <div id="diceContainer">
+            <div class="dice" id="dice1">1</div>
+            <div class="dice" id="dice2">1</div>
+        </div>
+        <button onclick="rollDice()">Roll Dice</button>
+        <div id="rollHistory"></div>
+    </div>
+    <script>
+        var rollCount = {};
+        var totalRolls = 0;
+
+        function rollDice() {
+            var dice1 = Math.floor(Math.random() * 6) + 1;
+            var dice2 = Math.floor(Math.random() * 6) + 1;
+
+            // Update dice visuals
+            document.getElementById("dice1").innerHTML = dice1;
+            document.getElementById("dice2").innerHTML = dice2;
+
+            // Compute total roll
+            var total = dice1 + dice2;
+
+            // Update roll history
+            updateRollHistory(total);
+
+            // Update roll count
+            updateRollCount(total);
+        }
+
+        function updateRollHistory(total) {
+            var rollHistory = document.getElementById("rollHistory");
+            var rollText = document.createElement("p");
+            rollText.textContent = "Total Roll: " + total;
+            rollHistory.appendChild(rollText);
+        }
+
+        function updateRollCount(total) {
+            totalRolls++;
+            if (rollCount[total]) {
+                rollCount[total]++;
+            } else {
+                rollCount[total] = 1;
+            }
+
+            // Display roll count
+            var rollCountText = "Total Rolls: " + totalRolls + "<br>";
+            for (var key in rollCount) {
+                rollCountText += "Total " + key + ": " + rollCount[key] + "<br>";
+            }
+
+            document.getElementById("rollHistory").innerHTML = rollCountText;
+        }
+    </script>
+</body>
+</html>
